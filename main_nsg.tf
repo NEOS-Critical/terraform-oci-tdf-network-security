@@ -30,6 +30,12 @@ resource "oci_core_network_security_group" "this" {
   display_name          = local.nsgs_keys[count.index] != null ? local.nsgs_keys[count.index] : "${local.default_nsgs_opt.display_name}-${count.index}"
   defined_tags          = var.nsgs[local.nsgs_keys[count.index]].defined_tags != null ? var.nsgs[local.nsgs_keys[count.index]].defined_tags : var.default_defined_tags
   freeform_tags         = var.nsgs[local.nsgs_keys[count.index]].freeform_tags != null ? var.nsgs[local.nsgs_keys[count.index]].freeform_tags : var.default_freeform_tags
+  lifecycle {
+    ignore_changes = [
+      defined_tags["Oracle-Tags.CreatedBy"],
+      defined_tags["Oracle-Tags.CreatedOn"],
+    ]
+  }
 }
 
 ######################
